@@ -1,0 +1,1 @@
+SkinDepth is a simple utility to calculate the skin depth of an alternating electromagnetic wave inside a conductor.  At the skin depth, a wave drops to around 37% its original amplitude, so by 4 times the skin depth the wave is almost completely attenuated.

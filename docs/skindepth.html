@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir="ltr" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="en-us" http-equiv="Content-Language" />
+<title>SkinDepth</title>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<link href="mainstyle.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+<div id="masthead">
+	SkinDepth</div>
+<div id="right_col">
+	<ul id="nav_li">
+		<li><a href="#System Requirements">System Requirements</a></li>
+		<li><a href="#Basic_Usage">Basic Usage</a></li>
+		<li><a href="#Calculating_Skin_Depth">Calculating Skin Depth</a></li>
+		<li><a href="#Calculating_Excitation_Frequency_">Calculating Excitation 
+		Frequency</a></li>
+		<li><a href="#Adding,_Deleting,_and_Revising_Materials_">Adding, Deleting, 
+		and Revising Materials</a></li>
+		<li><a href="#Importing and Exporting">Importing and Exporting</a></li>
+		<li><a href="#License">License</a></li>
+	</ul>
+	<div id="footer">
+		Copyright (C) <a href="http://www.chriscoughlin.com/">Chris Coughlin</a>. 
+		All rights reserved.</div>
+</div>
+<div id="page_content">
+	<img alt="SkinDepth on Fedora Core 14 x64 and Windows XP 32-bit" class="center" height="559" src="img/skindepth_composite.png" width="756" />
+	<p>SkinDepth is a simple utility to calculate the depth of attenuation, or
+	<a href="http://en.wikipedia.org/wiki/Skin_effect">skin depth</a>, of an electromagnetic 
+	wave inside a conductive material. At the skin depth, a wave drops to around 
+	37% its original amplitude, so by 4 times the skin depth the wave is almost 
+	completely attenuated (37% of 37% of 37% of 37% or about 98% of the original 
+	amplitude). Among other things this is an important number to know for
+	<a href="http://en.wikipedia.org/wiki/Electromagnetic_interference">EMI/RFI</a> 
+	shielding, some types of nondestructive testing, and radiofrequency losses in 
+	transmission lines and transformers. The skin depth of a conductive material 
+	depends on its
+	<a href="http://en.wikipedia.org/wiki/Electrical_conductivity">electrical conductivity</a>, 
+	its <a href="http://en.wikipedia.org/wiki/Permeability_(electromagnetism)">magnetic 
+	permeability</a>, and the frequency of the wave.</p>
+	<p>SkinDepth uses an approximation to the skin effect calculation - it's valid 
+	for metals up to at least the microwave (GHz) range for the most part, but for 
+	poor conductors (insulators) it may only be applicable to a few tens of kHz. 
+	SkinDepth won't warn you if the frequencies you're using would make this approximation 
+	less than accurate so if you need the "real" results consult some of the above 
+	links for a more thorough background on the subject.</p>
+	<p>The SkinDepth program keeps a database of conductive materials and can automatically 
+	calculate the skin depth of a given material for a given frequency (and vice 
+	versa). SkinDepth comes with a list of some conductive materials that you can 
+	add materials to as you need them. </p>
+	<h1><a name="System Requirements">System Requirements</a></h1>
+	<p>SkinDepth is written in <a href="http://www.python.org">Python 2.7</a> and 
+	currently uses the <a href="http://www.wxpython.org">wxPython</a> platform for 
+	its user interface, so you&#39;ll at least need these two packages installed 
+	on your local machine. Disk space and memory requirements are minimal-if you 
+	can run (wx)Python you can run SkinDepth. SkinDepth has been tested under Linux 
+	(Fedora Core 14 x64), Windows XP, and Windows 7, and should work on any platform 
+	with Python 2.7 and wxPython installed.</p>
+	<h1><a name="Basic_Usage">Basic Usage</a></h1>
+	<p>SkinDepth comes with a basic set of materials to get you started in <tt>somemats.db</tt>. 
+	From the File menu select Open Materials File... or press CTRL+O to open a file 
+	dialog box from which you can load the file. You can
+	<a href="#Adding,_Deleting,_and_Revising_Materials_">add, edit, or delete materials</a> 
+	from this file as you like of course. If you&#39;re curious, the file is a standard
+	<a href="http://www.sqlite.org/">SQLite</a> database file and can be read and 
+	modified by outside applications.</p>
+	<h2><a name="Calculating_Skin_Depth">Calculating Skin Depth</a> </h2>
+	<p>To calculate the skin depth for a given material, start by selecting a material. 
+	Scroll down the list of available materials and highlight (click) on the one 
+	you&#39;re interested in. Once you&#39;ve got a material selected, enter the 
+	frequency of the wave you&#39;re testing in the Frequency box. SkinDepth defaults 
+	to assuming this frequency is expressed in Hertz (Hz); you can also provide 
+	frequencies in everything from mHz to GHz by changing the units in the drop-down 
+	box next to the Frequency box. You can also use exponential notation in the 
+	Frequency box, so 1 kHz can be entered as 1000 Hz, 1 kHz, 1e3 Hz, and so on.
+	</p>
+	<p>To calculate the skin depth of this frequency in this material, just click 
+	the &quot;Calculate Skin Depth&quot; button to get the answer. SkinDepth defaults 
+	to reporting this depth in millimeters (mm), but if you&#39;d prefer a different 
+	unit you can choose the units first and then click the &quot;Calculate Skin 
+	Depth&quot; button. So if you&#39;d like to find the skin depth in inches for 
+	1 kHz, change the &#39;m&#39; in the Skin Depth units drop-down box to &#39;inches&#39; 
+	and then click &quot;Calculate Skin Depth.&quot; </p>
+	<h2><a name="Calculating_Excitation_Frequency_">Calculating Excitation Frequency
+	</a></h2>
+	<p>In some applications (such as eddy current testing), you have an attenuation 
+	depth that you&#39;d like to match to a frequency. SkinDepth lets you calculate 
+	an excitation frequency for a known skin depth-just choose a material, enter 
+	the skin depth you&#39;re interested in, adjust the units for skin depth and 
+	reported frequency to your liking, and click the &quot;Calculate Frequency&quot; 
+	button. </p>
+	<h2><a name="Adding,_Deleting,_and_Revising_Materials_">Adding, Deleting, and 
+	Revising Materials </a></h2>
+	<p>To add a new material to the current materials file, select &quot;Add A Material&quot; 
+	from the Operations menu, or press CTRL-+ and the Add/Edit Material window will 
+	appear. Fill in the fields in this window for your new material and click &quot;OK&quot; 
+	to add the material to the file or &quot;Cancel&quot; to cancel. Note that the 
+	materials file allows only one entry per material name so be careful when adding 
+	new materials-e.g. adding a new material &#39;Aluminum&#39; will overwrite the 
+	existing &#39;Aluminum.&#39; Since the material file auto-updates with changes, 
+	the old material entry will be gone forever if you add a new material with the 
+	same name. </p>
+	<p>To delete a material, highlight the material to remove from the list of materials 
+	in the current file and select &quot;Remove A Material&quot; from the Operations 
+	menu, or press CTRL-- . SkinDepth will ask for confirmation for deletion-click &quot;OK&quot; 
+	to remove the selected material. Click &quot;Cancel&quot; to cancel the deletion.
+	</p>
+	<p>To edit an existing material, select the material to revise from the materials 
+	list and double-click the material in the list. The Add/Edit Material window 
+	appears, this time with all the data currently in the materials file about the 
+	material you selected. Simply revise as necessary and click the &quot;OK&quot; 
+	button as before to update the materials file. Note that if you change the material&#39;s 
+	name that this revised entry will not overwrite the material you selected but 
+	will save the material as a new material under the new name (and possibly overwrite 
+	an existing entry with the same name if it already exists).</p>
+	<h1><a name="Importing and Exporting">Importing and Exporting</a></h1>
+	<p>If you ever find the need to copy a number of new materials into your materials 
+	database or you&#39;d like to share materials with another SkinDepth user, SkinDepth 
+	has the ability to both import and export entire materials files. The materials 
+	files are exported as SQL scripts-ordinary text files that contain a series 
+	of commands to SkinDepth&#39;s database to recreate the original. Just select &quot;Export 
+	As Text File...&quot; from the File menu to export your current materials file 
+	as a SQL script, and &quot;Import Text File...&quot; to import a SQL script 
+	into the current database file. Note that materials in the database will be 
+	overwritten by materials of the same name in the export file, e.g. if your import 
+	file has &quot;Iron&quot; this entry will replace the entry for &quot;Iron&quot; 
+	in the database if it already exists.</p>
+	<p>SkinDepth can also import materials files directly - just select &quot;Import 
+	Materials File...&quot; and browse to the file you'd like to import. Since this 
+	import was designed mainly to fetch remote updates (more on that in a second), 
+	it doesn't overwrite materials in your current file if it finds two materials 
+	with the same name. Instead, it ignores the material in the file to import and 
+	keeps the original material entry.</p>
+	<p>Finally, this version of SkinDepth can automatically fetch updated materials 
+	lists from the website. Just select &quot;Get Updated Materials Database...&quot; 
+	from the File menu to have SkinDepth "phone home" for the latest materials entries 
+	file. The file will be downloaded from the website, and any materials not in 
+	your current materials file will be automatically imported for you.</p>
+	<h1><a name="License">License</a></h1>
+	<p>In a nutshell, you are free to use the download as-is, provided you credit 
+	me (<a href="http://www.chriscoughlin.com/contact_chris.php">dropping me a line</a> 
+	would be nice too but not required) and understand I offer no warranty or guarantee.</p>
+	<p>Copyright (c) 2011 Chris R. Coughlin. All rights reserved.<br />
+	Redistribution and use in the original form of distribution without modification 
+	is permitted provided that the following conditions are met:</p>
+	<ol>
+		<li>Redistributions must reproduce the above copyright notice, this list 
+		of conditions and the following disclaimer in the documentation and/or other 
+		materials provided with the distribution.</li>
+		<li>Neither the name of the original developer Chris R. Coughlin nor the 
+		names of any contributors may be used to endorse or promote products derived 
+		from this software without specific prior written permission.</li>
+	</ol>
+	<p><tt>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &#39;AS 
+	IS&#39; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+	THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE 
+	FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+	(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+	LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND 
+	ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+	NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
+	EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</tt></p>
+</div>
+
+</body>
+
+</html>
