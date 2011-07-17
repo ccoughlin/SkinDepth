@@ -54,13 +54,23 @@
 	versa). SkinDepth comes with a list of some conductive materials that you can 
 	add materials to as you need them. </p>
 	<h1><a name="System Requirements">System Requirements</a></h1>
-	<p>SkinDepth is written in <a href="http://www.python.org">Python 2.7</a> and 
-	currently uses the <a href="http://www.wxpython.org">wxPython</a> platform for 
-	its user interface, so you&#39;ll at least need these two packages installed 
-	on your local machine. Disk space and memory requirements are minimal-if you 
-	can run (wx)Python you can run SkinDepth. SkinDepth has been tested under Linux 
-	(Fedora Core 14 x64), Windows XP, and Windows 7, and should work on any platform 
-	with Python 2.7 and wxPython installed.</p>
+	<p>SkinDepth is written in <a href="http://www.python.org">Python</a> and currently 
+	uses the <a href="http://www.wxpython.org">wxPython</a> platform for its user 
+	interface, so you&#39;ll at least need these two packages installed on your 
+	local machine. Disk space and memory requirements are minimal-if you can run 
+	(wx)Python you can run SkinDepth. SkinDepth has been tested under Linux (Fedora 
+	Core 14 x64), Windows XP, and Windows 7, and should work on any platform with 
+	Python 2.7 and wxPython installed. SkinDepth should also run under Python 2.6, 
+	but hasn't undergone as much testing on this version.</p>
+	<p>On OS X Snow Leopard, SkinDepth will run under the default Python 2.6 installation 
+	with one extra step. The wxPython package that ships as part of the default 
+	Python installation is compiled as a 32-bit library but the Python universal 
+	binary under Snow Leopard defaults to 64-bit; trying to load SkinDepth or any 
+	wxPython-based application will result in an error. There are several ways to 
+	get around this but the easiest is to use the <tt>arch</tt> command to use 32-bit 
+	Python. From the Terminal type <tt>arch -i386 python skindepth.py</tt> from 
+	the SkinDepth folder to have Python run SkinDepth. You can use <tt>man arch</tt> 
+	for more information.</p>
 	<h1><a name="Basic_Usage">Basic Usage</a></h1>
 	<p>SkinDepth comes with a basic set of materials to get you started in <tt>somemats.db</tt>. 
 	From the File menu select Open Materials File... or press CTRL+O to open a file 

@@ -1,5 +1,7 @@
 '''testmaterialdb.py- Tests the sqlite3 interface'''
 
+import os
+import os.path
 import sqlite3
 import tempfile
 import unittest
@@ -134,10 +136,14 @@ class TestMaterialDB(unittest.TestCase):
         testmaterial = Material.Material(name="Iron", sigma_iacs=18, mu_rel=150, notes="Pure Iron")
         self.testdb.add(testmaterial)
         self.testdb.update()
-        self.testdb.exportsql("bert.sql")
+        temp_sql_file = tempfile.NamedTemporaryFile(delete=False)
+        self.testdb.exportsql(temp_sql_file.name)
         file_db = MaterialDB.MaterialDB(":memory:")
-        file_db.importsql("bert.sql")
+        file_db.importsql(temp_sql_file.name)
         retrieved_material = file_db.retrieve("Iron")
+        temp_sql_file.close()
+        if os.path.exists(temp_sql_file.name):
+            os.remove(temp_sql_file.name)
         self.assertEqual(testmaterial.name, retrieved_material.name)
         self.assertEqual(testmaterial.notes, retrieved_material.notes)
         try:

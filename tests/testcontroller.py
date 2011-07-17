@@ -1,7 +1,10 @@
 '''testcontroller.py- Tests the basic controller'''
 
 __author__ = 'Chris'
+import os
+import os.path
 import unittest
+import tempfile
 from platform import SkinDepthController
 from material import Material
 
@@ -133,10 +136,14 @@ class TestSkinDepthController(unittest.TestCase):
         testmaterial_dict = {"name":"Iron", "notes":"Pure Iron", "iacs":18, "mu_r":150}
         self.testctrl.add(testmaterial_dict)
         self.testctrl.update()
-        self.testctrl.exportsql("bert.sql")
+        temp_sql_file = tempfile.NamedTemporaryFile(delete=False)
+        self.testctrl.exportsql(temp_sql_file.name)
         file_db = SkinDepthController.SkinDepthController(":memory:")
-        file_db.importsql("bert.sql")
+        file_db.importsql(temp_sql_file.name)
         retrieved_material = file_db.fetch("Iron")
+        temp_sql_file.close()
+        if os.path.exists(temp_sql_file.name):
+            os.remove(temp_sql_file.name)
         self.assertEqual(testmaterial_dict["name"], retrieved_material["name"])
         self.assertEqual(testmaterial_dict["notes"], retrieved_material["notes"])
         try:
