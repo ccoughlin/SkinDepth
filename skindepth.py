@@ -1,6 +1,7 @@
+#!/usr/bin/env python
+
+''' skindepth.py - wxPython frontend to the electromagnetic wave attenuation calculator. '''
+
 __author__ = 'Chris'
-'''Simple frontend to SkinDepth, currently runs the wxPython front end.
-Should be trivial to expand to other front ends as they appear.'''
-#TODO - think about other UI's, e.g. Pyjamas
 from platform import wxSkinDepth
 wxSkinDepth.main()

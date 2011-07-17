@@ -28,13 +28,13 @@ class FetchFile(object):
             self.destination = dst
 
     def fetch(self, timeout=10):
-        '''Retrieves the remote file, with a timeout of 10s by default.  Aborts retrieval if destination file already exists
-        or self.overwrite is False. '''
+        '''Retrieves the remote file, with a timeout of 10s by default.  Aborts retrieval if destination file
+        already exists or self.overwrite is False. '''
         if not os.path.exists(self.destination) or self.overwrite:
             try:
                 remote_file = urllib2.urlopen(self.url, timeout = timeout)
                 with open(self.destination, "wb") as local_file:
                     shutil.copyfileobj(remote_file, local_file)
-            except urllib2.URLError as err:
+            except urllib2.URLError:
                 '''Unable to retrieve the file'''
                 raise

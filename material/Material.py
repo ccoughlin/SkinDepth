@@ -6,25 +6,25 @@ import constants
 import math
 
 class Material(object):
-    def __init__(self,name,notes=None,sigma_iacs=0.0,mu_rel=1.00):
+    '''Defines the basic electromagnetic properties of a material (no temperature correction)'''
+    def __init__(self, name, notes=None, sigma_iacs=0.0, mu_rel=1.00):
         '''Required parameter:  name of material
           Optional parameters:
           notes (None):  general descriptive text to add to the material definition
           sigma_iacs (0.0):  electrical conductivity of material in %IACS scale
           mu_rel (1.00):  relative magnetic permeability of the material
-          '''
+        '''
         self.name = name
         self.notes = notes
         self.iacs = sigma_iacs
         self.mu_r = mu_rel
 
-    # TODO - consider throwing a temperature correction in for conductivity - will have to track in DB
     @property
-    def conductivity(self):
+    def conductivity(self): 
         '''Returns the electrical conductivity in S/m of the material'''
         return (self.iacs / constants.ConductivityOfCopperIACS)*constants.ConductivityOfCopperSI
     @conductivity.setter
-    def conductivity(self,conductivitySI):
+    def conductivity(self, conductivitySI):
         '''Sets the electrical conductivity in S/m of the material'''
         self.iacs = (conductivitySI / constants.ConductivityOfCopperSI) *100
 
@@ -33,11 +33,11 @@ class Material(object):
         '''Returns the magnetic permeability in H/m of the material'''
         return self.mu_r * constants.PermeabilityOfFreeSpace
     @permeability.setter
-    def permeability(self,new_perm):
+    def permeability(self, new_perm):
         '''Sets the magnetic permeability in H/m of the material'''
         self.mu_r = new_perm / constants.PermeabilityOfFreeSpace
 
-    def calc_skindepth(self,frequency):
+    def calc_skindepth(self, frequency):
         '''Returns the skin depth in metres for the given excitation frequency.'''
         omega = 2*math.pi*frequency
         delta = 0.0
@@ -49,7 +49,7 @@ class Material(object):
             delta = math.sqrt(2/(omega*self.conductivity*self.permeability))
         return delta
 
-    def calc_frequency(self,attenuation):
+    def calc_frequency(self, attenuation):
         '''Returns the frequency in Hz that has the desired attenuation depth in this material.
         Assumes attenuation is in metres.'''
         frequency = 0.0
@@ -58,5 +58,5 @@ class Material(object):
         elif attenuation < 0:
             return float('NaN')
         else:
-            frequency = (2 / math.pow(attenuation,2) / (self.conductivity * self.permeability * 2 * math.pi))
+            frequency = (2 / math.pow(attenuation, 2) / (self.conductivity * self.permeability * 2 * math.pi))
         return frequency

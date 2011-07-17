@@ -1,4 +1,4 @@
-'''Defines some basic physical constants'''
+'''constants.py - Defines some basic physical constants'''
 
 import math
 	

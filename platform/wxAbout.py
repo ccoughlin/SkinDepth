@@ -1,10 +1,13 @@
+'''wxAbout.py - Simple About This Program dialog box, based on code courtesy 
+    http://zetcode.com/wxpython/dialogs/ '''
+
 __author__ = 'Chris'
-'''Simple About This Program dialog box, based on code courtesy http://zetcode.com/wxpython/dialogs/ '''
-import banelogo
+from platform import banelogo
 import textwrap
 import wx
 
 def About():
+    '''Displays a simple wxPython About dialog box'''
     raw_description = '  '.join([
         "Calculates the depth of attenuation or 'skin depth' of electromagnetic waves in conductive materials.",
         "Refer to the documenation for more background info."])
