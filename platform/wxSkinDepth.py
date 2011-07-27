@@ -7,10 +7,10 @@ except ImportError as err:
     # Handle errors with importing wxPython, e.g.
     # on OS X Python defaults to 64-bit but the wxPython lib is 32-bit.
     import textwrap
-    print("Unable to import wxPython, error was:\n\t{0}\n".format(err.msg))
+    print("Unable to import wxPython, error was:\n\t{0}\n".format(err.message))
     info_str = '''Please ensure that wxPython has been installed.  OS X users-Python is '''\
         '''usually compiled as a 64-bit application but wxPython is by default 32-bit.  '''\
-        '''To temporarily run in 32-bit mode use\n\n\t"arch -i386 python skindepth.py"\n\n'''
+        '''To temporarily run in 32-bit mode use "arch -i386 python skindepth.py"'''
     print(textwrap.fill(info_str))
     sys.exit(1)
 import os
