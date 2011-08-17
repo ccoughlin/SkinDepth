@@ -1,5 +1,6 @@
 '''testmaterial.py- Tests the Material class'''
 import unittest
+import math
 from material import Material
 
 class TestMaterial(unittest.TestCase):
@@ -75,6 +76,34 @@ class TestMaterial(unittest.TestCase):
             # Use places instead of delta for 2.6
             self.assertAlmostEqual(self.testmaterial.calc_skindepth(freq), 2.09e-3, places=1)
 
+    def test_skindepth_perfect_insulator(self):
+        '''Verify that a material with 0 conductivity returns infinite skin depth'''
+        freq = 1.03E3
+        self.testmaterial.iacs = 0.
+        self.testmaterial.mu_r = 1
+        self.assertEqual(self.testmaterial.calc_skindepth(freq), float('inf'))
+
+    def test_skindepth_dc_field(self):
+        '''Verify that a DC field returns infinite skin depth'''
+        freq = 0.
+        self.testmaterial.iacs = 0.
+        self.testmaterial.mu_r = 1
+        self.assertEqual(self.testmaterial.calc_skindepth(freq), float('inf'))
+
+    def test_skindepth_neg_freq(self):
+        '''Verify that a negative frequency returns NaN'''
+        freq = -11.
+        self.testmaterial.iacs = 100.
+        self.testmaterial.mu_r = 1
+        self.assertTrue(math.isnan(self.testmaterial.calc_skindepth(freq)))
+
+    def test_skindepth_zero_permeability(self):
+        '''Verify that a material with 0 permeability returns infinite skin depth'''
+        freq = 0.
+        self.testmaterial.iacs = 0.
+        self.testmaterial.mu_r = 0
+        self.assertEqual(self.testmaterial.calc_skindepth(freq), float('inf'))
+
     def test_frequency(self):
         '''Verify 100Hz creates a depth of attenuation of 1.272mm in Iron (18% IACS mu_r = 150)'''
         skindepth = 1.272e-3
@@ -85,6 +114,20 @@ class TestMaterial(unittest.TestCase):
         except TypeError:
             # Use places instead of delta for 2.6
             self.assertAlmostEqual(self.testmaterial.calc_frequency(skindepth), 100, places=1)
+
+    def test_frequency_zero_delta(self):
+        '''Verify that an attenuation depth of zero returns an infinite excitation frequency'''
+        skindepth = 0
+        self.testmaterial.iacs = 18
+        self.testmaterial.mu_r = 150
+        self.assertEqual(self.testmaterial.calc_frequency(skindepth), float('inf'))
+
+    def test_frequency_neg_delta(self):
+        '''Verify a negative attenuation depth returns NaN for excitation frequency'''
+        skindepth = -0.21
+        self.testmaterial.iacs = 18
+        self.testmaterial.mu_r = 150
+        self.assertTrue(math.isnan(self.testmaterial.calc_frequency(skindepth)))
 
 def run():
     '''Runs the suite of tests'''
